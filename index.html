@@ -3,87 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hindi Records</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Guess the Number Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .game-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input[type="number"] {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .message {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <h1>Hindi Records</h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#artists">Artists</a></li>
-                <li><a href="#music">Music</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="search-bar">
-            <form action="#" method="get">
-                <input type="text" name="search" placeholder="Search...">
-                <button type="submit">Search</button>
-            </form>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h2>Domain On Sale</h2>
-            <p>MC Stan and Hindi Records Team You Can Contact Me On Email "tawdabhai@gmail.com".</p>
-            <a href="https://www.youtube.com/channel/UC_Q-YjEXDN0ufkU4AoWhU1g" class="cta">Listen Now</a>
-        </div>
-    </section>
+<div class="game-container">
+    <h1>Guess the Number!</h1>
+    <p>I'm thinking of a number between 1 and 100.</p>
+    <input type="number" id="guess" min="1" max="100" placeholder="Enter your guess">
+    <button id="submit">Submit Guess</button>
+    <div class="message" id="message"></div>
+    <button id="reset" style="display:none;">Play Again</button>
+</div>
 
-    <section id="about" class="about">
-        <h2>About Us</h2>
-        <p>Hindi Records is a leading name in the rap music industry, bringing you the raw energy and talent from the streets. We are dedicated to promoting Hindi rap artists and their music globally.</p>
-    </section>
+<script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
 
-    <section id="artists" class="artists">
-        <h2>Our Artists</h2>
-        <div class="artist-gallery">
-            <div class="artist">
-                <img src="mcstan.jpg" alt="Artist 1">
-                <h3>MC STAN</h3>
-            </div>
-            <div class="artist">
-                <img src="unnamed.jpg" alt="Artist 2">
-                <h3>KRSNA</h3>
-            </div>
-            <div class="artist">
-                <img src="raftaarsss.jpg" alt="Artist 3">
-                <h3>RAFTAAR</h3>
-            </div>
-        </div>
-    </section>
+    document.getElementById('submit').onclick = function() {
+        const userGuess = Number(document.getElementById('guess').value);
+        attempts++;
+        const messageElement = document.getElementById('message');
 
-    <section id="music" class="music">
-        <h2>Our Music</h2>
-        <div class="music-gallery">
-            <div class="music-track">
-                <img src="tadipaar.jpg" alt="Album 1">
-                <h3>Tadipaar</h3>
-                <p>MC Stan</p>
-            </div>
-            <div class="music-track">
-                <img src="still.jpg" alt="Album 2">
-                <h3>Still Here</h3>
-                <p>KSRNA</p>
-            </div>
-            <div class="music-track">
-                <img src="nair.jpg" alt="Album 3">
-                <h3>Mr. Nair</h3>
-                <p>Raftaar</p>
-            </div>
-        </div>
-    </section>
+        if (userGuess < 1 || userGuess > 100) {
+            messageElement.textContent = "Please enter a number between 1 and 100.";
+        } else if (userGuess < randomNumber) {
+            messageElement.textContent = "Too low! Try again.";
+        } else if (userGuess > randomNumber) {
+            messageElement.textContent = "Too high! Try again.";
+        } else {
+            messageElement.textContent = `Congratulations! You guessed the number in ${attempts} attempts!`;
+            document.getElementById('reset').style.display = "block";
+            document.getElementById('submit').disabled = true;
+        }
+    };
 
-    <footer>
-        <p>&copy; 2024 Hindi Records. All rights reserved.</p>
-        <p><a href="#contact">Shubham Tiwari</a></p>
-        <p><a>This is a demo website</a></p>
-    </footer>
+    document.getElementById('reset').onclick = function() {
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+        attempts = 0;
+        document.getElementById('message').textContent = "";
+        document.getElementById('guess').value = "";
+        document.getElementById('reset').style.display = "none";
+        document.getElementById('submit').disabled = false;
+    };
+</script>
+
 </body>
 </html>
